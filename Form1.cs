@@ -23,14 +23,13 @@ namespace PasswordChecker
             string hash = Checker.Hashing(source);
             string hash2 = Checker.Hashing(source);
 
-            if(hash == hash2) {
+            if (hash == hash2) {
                 string response = await Checker.SendHash(hash); // Käydään tietokannasta vertailutulokset
                 hash = hash.Substring(5).ToUpper();             // Vastaus tulee isoilla kirjaimilla, joten tiiviste myös isoksi
                                                                 // Lisäksi otetaan tiivisteen viisi ensimmäistä kirjainta pois, sillä ne on poistettu myös  vastauksesta
 
                 lblResponse.Text = Checker.CompareResponseToHash(hash, response);  // Verrataan alkuperäistä tiivistettä tulokseen
-            }
-            else {
+            } else {
                 lblResponse.Text = "Tiivisteen varmennus epäonnistui";
             }
         }
@@ -41,6 +40,14 @@ namespace PasswordChecker
                 btnSend_Click(sender, e);
                 e.SuppressKeyPress = true;  // Hiljentää *ding*-äänen
             }
+        }
+
+        private void chkHide_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkHide.Checked)
+                txtPass.UseSystemPasswordChar = true;
+            else txtPass.UseSystemPasswordChar = false;
+
         }
     }
 }

@@ -8,6 +8,7 @@ namespace PasswordChecker
         public Form1()
         {
             InitializeComponent();
+            ActiveControl = txtPass;
         }
 
         private void TextToHash(object sender, EventArgs e)
@@ -44,10 +45,7 @@ namespace PasswordChecker
 
         private void chkHide_CheckedChanged(object sender, EventArgs e)
         {
-            if (chkHide.Checked)
-                txtPass.UseSystemPasswordChar = true;
-            else txtPass.UseSystemPasswordChar = false;
-
+            txtPass.UseSystemPasswordChar = (chkHide.Checked == true) ? true : false;
         }
     }
 }

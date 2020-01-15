@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Net.Http;
-
 
 namespace PasswordChecker
 {
@@ -14,24 +12,23 @@ namespace PasswordChecker
 
         private void TextToHash(object sender, EventArgs e)
         {
-            string source = txtPass.Text.ToString();            // Käyttäjän syöttämä teksti
+            string source = txtPass.Text;            // Käyttäjän syöttämä teksti
             string hash = Checker.Hashing(source);
-            lblHash.Text = "Hash: " + hash + "\n5 ensimmäistä kirjainta: " + hash.Remove(5);
+            lblHash.Text = "Hash: " + hash + "\n5 ensimmäistä merkkiä: " + hash.Remove(5);
         }
 
         private async void btnSend_Click(object sender, EventArgs e)
         {
-            string source = txtPass.Text.ToString();            // Käyttäjän syöttämä teksti
+            string source = txtPass.Text;            // Käyttäjän syöttämä teksti
             string hash = Checker.Hashing(source);
             string hash2 = Checker.Hashing(source);
 
             if(hash == hash2) {
-                var response = await Checker.SendHash(hash);    // Käydään tietokannasta vertailutulokset
-                string r = response.ToString();                         // Muutetaan tulos stringiksi
-                hash = hash.Substring(5).ToUpper();                     // Vastaus tulee isoilla kirjaimilla, joten tiiviste myös isoksi
-                                                                        // Lisäksi otetaan tiivisteen viisi ensimmäistä kirjainta pois, sillä ne on poistettu myös  vastauksesta
+                string response = await Checker.SendHash(hash); // Käydään tietokannasta vertailutulokset
+                hash = hash.Substring(5).ToUpper();             // Vastaus tulee isoilla kirjaimilla, joten tiiviste myös isoksi
+                                                                // Lisäksi otetaan tiivisteen viisi ensimmäistä kirjainta pois, sillä ne on poistettu myös  vastauksesta
 
-                lblResponse.Text = Checker.CompareResponseToHash(hash, r);  // Verrataan alkuperäistä tiivistettä tulokseen
+                lblResponse.Text = Checker.CompareResponseToHash(hash, response);  // Verrataan alkuperäistä tiivistettä tulokseen
             }
             else {
                 lblResponse.Text = "Tiivisteen varmennus epäonnistui";
